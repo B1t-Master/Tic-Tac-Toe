@@ -5,35 +5,37 @@ function createPlayer(name, token) {
   const getScore = () => score;
   const setMarker = () => {
     // console.log(gameBoard);
-    let marker = prompt("enter a number from 1 to 9", "");
+    let marker = prompt(`${name}enter a number from 1 to 9`, "");
     if (marker === "1" && gameBoard[0][0] === null) {
-      gameBoard[0][0] = token;
+      return (gameBoard[0][0] = token);
     }
     if (marker === "2" && gameBoard[0][1] === null) {
-      gameBoard[0][1] = token;
+      return (gameBoard[0][1] = token);
     }
     if (marker === "3" && gameBoard[0][2] === null) {
-      gameBoard[0][2] = token;
+      return (gameBoard[0][2] = token);
     }
     if (marker === "4" && gameBoard[1][0] === null) {
-      gameBoard[1][0] = token;
+      return (gameBoard[1][0] = token);
     }
     if (marker === "5" && gameBoard[1][1] === null) {
-      gameBoard[1][1] = token;
+      return (gameBoard[1][1] = token);
     }
     if (marker === "6" && gameBoard[1][2] === null) {
-      gameBoard[1][2] = token;
+      return (gameBoard[1][2] = token);
     }
     if (marker === "7" && gameBoard[2][0] === null) {
-      gameBoard[2][0] = token;
+      return (gameBoard[2][0] = token);
     }
     if (marker === "8" && gameBoard[2][1] === null) {
-      gameBoard[2][1] = token;
+      return (gameBoard[2][1] = token);
     }
     if (marker === "9" && gameBoard[2][2] === null) {
-      gameBoard[2][2] = token;
+      return (gameBoard[2][2] = token);
+    } else {
+      console.log("invalid entry");
+      return setMarker();
     }
-    console.log(`${name}'s turn: enter a grid from 0 to 9"`);
   };
 
   return { name, token, incrementScore, getScore, setMarker };
@@ -50,11 +52,9 @@ const gameLogic = (function () {
     return { gameBoard };
   }
 
-  // function isGameEnded(gameBoard) {
-  //   if (gameBoard.includes(null)) {
-  //     return false;
-  //   } else return true;
-  // }
+  function isGameEnded(gameBoard) {
+    gameBoard ?? true;
+  }
 
   function checkWinner(token) {
     if (
@@ -107,7 +107,7 @@ const gameLogic = (function () {
       return true;
     } else return false;
   }
-  return { createGameBoard, checkWinner, gameBoard };
+  return { createGameBoard, isGameEnded, checkWinner, gameBoard };
 })();
 
 function playGame() {
@@ -119,6 +119,7 @@ function playGame() {
     [4, 5, 6],
     [7, 8, 9],
   ]);
+
   for (let i = 0; i <= 4; i++) {
     player1.setMarker();
     if (gameLogic.checkWinner(player1.token)) {
@@ -126,6 +127,7 @@ function playGame() {
       return;
     }
     console.table(gameBoard);
+
     player2.setMarker();
     if (gameLogic.checkWinner(player2.token)) {
       alert("player 2 has won");
