@@ -1,46 +1,3 @@
-let gameBoard = {};
-function createPlayer(name, token) {
-  let score = 0;
-  const incrementScore = () => score++;
-  const getScore = () => score;
-  const setMarker = () => {
-    // console.log(gameBoard);
-    let marker = prompt(`${name}enter a number from 1 to 9`, "");
-    if (marker === "1" && gameBoard[0][0] === null) {
-      return (gameBoard[0][0] = token);
-    }
-    if (marker === "2" && gameBoard[0][1] === null) {
-      return (gameBoard[0][1] = token);
-    }
-    if (marker === "3" && gameBoard[0][2] === null) {
-      return (gameBoard[0][2] = token);
-    }
-    if (marker === "4" && gameBoard[1][0] === null) {
-      return (gameBoard[1][0] = token);
-    }
-    if (marker === "5" && gameBoard[1][1] === null) {
-      return (gameBoard[1][1] = token);
-    }
-    if (marker === "6" && gameBoard[1][2] === null) {
-      return (gameBoard[1][2] = token);
-    }
-    if (marker === "7" && gameBoard[2][0] === null) {
-      return (gameBoard[2][0] = token);
-    }
-    if (marker === "8" && gameBoard[2][1] === null) {
-      return (gameBoard[2][1] = token);
-    }
-    if (marker === "9" && gameBoard[2][2] === null) {
-      return (gameBoard[2][2] = token);
-    } else {
-      console.log("invalid entry");
-      return setMarker();
-    }
-  };
-
-  return { name, token, incrementScore, getScore, setMarker };
-}
-
 const gameLogic = (function () {
   function createGameBoard() {
     gameBoard = [
@@ -49,14 +6,14 @@ const gameLogic = (function () {
       [null, null, null],
     ];
     console.table(gameBoard);
-    return { gameBoard };
+    return gameBoard;
   }
 
   // function isGameEnded(gameBoard) {
   //   gameBoard ?? true;
   // }
 
-  function checkWinner(token) {
+  function checkWinner(token, gameBoard) {
     if (
       gameBoard[0][0] === token &&
       gameBoard[0][1] === token &&
@@ -107,13 +64,55 @@ const gameLogic = (function () {
       return true;
     } else return false;
   }
-  return { createGameBoard, checkWinner, gameBoard };
+  return { createGameBoard, checkWinner };
 })();
 
+function createPlayer(name, token) {
+  let score = 0;
+  const incrementScore = () => score++;
+  const getScore = () => score;
+  const setMarker = (gameBoard) => {
+    // console.log(gameBoard);
+    let marker = prompt(`${name}enter a number from 1 to 9`, "");
+    if (marker === "1" && gameBoard[0][0] === null) {
+      return (gameBoard[0][0] = token);
+    }
+    if (marker === "2" && gameBoard[0][1] === null) {
+      return (gameBoard[0][1] = token);
+    }
+    if (marker === "3" && gameBoard[0][2] === null) {
+      return (gameBoard[0][2] = token);
+    }
+    if (marker === "4" && gameBoard[1][0] === null) {
+      return (gameBoard[1][0] = token);
+    }
+    if (marker === "5" && gameBoard[1][1] === null) {
+      return (gameBoard[1][1] = token);
+    }
+    if (marker === "6" && gameBoard[1][2] === null) {
+      return (gameBoard[1][2] = token);
+    }
+    if (marker === "7" && gameBoard[2][0] === null) {
+      return (gameBoard[2][0] = token);
+    }
+    if (marker === "8" && gameBoard[2][1] === null) {
+      return (gameBoard[2][1] = token);
+    }
+    if (marker === "9" && gameBoard[2][2] === null) {
+      return (gameBoard[2][2] = token);
+    } else {
+      console.log("invalid entry");
+      return setMarker(gameBoard);
+    }
+  };
+
+  return { name, token, incrementScore, getScore, setMarker };
+}
+
 function playGame() {
+  gameBoard = gameLogic.createGameBoard();
   let player1 = createPlayer("player1", "O");
   let player2 = createPlayer("player2", "X");
-  gameLogic.createGameBoard();
   console.log([
     [1, 2, 3],
     [4, 5, 6],
@@ -121,15 +120,15 @@ function playGame() {
   ]);
 
   for (let i = 0; i <= 4; i++) {
-    player1.setMarker();
-    if (gameLogic.checkWinner(player1.token)) {
+    player1.setMarker(gameBoard);
+    if (gameLogic.checkWinner(player1.token, gameBoard)) {
       alert("player 1 has won");
       return;
     }
     console.table(gameBoard);
 
-    player2.setMarker();
-    if (gameLogic.checkWinner(player2.token)) {
+    player2.setMarker(gameBoard);
+    if (gameLogic.checkWinner(player2.token, gameBoard)) {
       alert("player 2 has won");
       return;
     }
