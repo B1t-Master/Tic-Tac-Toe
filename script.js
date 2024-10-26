@@ -50,15 +50,11 @@ const gameLogic = (function () {
     return { gameBoard };
   }
 
-  function isGameEnded(gameBoard) {
-    for (let row of gameBoard) {
-      for (let column of row) {
-        if ((column = !null)) {
-          return true;
-        } else return false;
-      }
-    }
-  }
+  // function isGameEnded(gameBoard) {
+  //   if (gameBoard.includes(null)) {
+  //     return false;
+  //   } else return true;
+  // }
 
   function checkWinner(token) {
     if (
@@ -111,7 +107,7 @@ const gameLogic = (function () {
       return true;
     } else return false;
   }
-  return { createGameBoard, isGameEnded, checkWinner, gameBoard };
+  return { createGameBoard, checkWinner, gameBoard };
 })();
 
 function playGame() {
@@ -123,7 +119,7 @@ function playGame() {
     [4, 5, 6],
     [7, 8, 9],
   ]);
-  while (gameLogic.isGameEnded(gameBoard)) {
+  for (let i = 0; i <= 4; i++) {
     player1.setMarker();
     if (gameLogic.checkWinner(player1.token)) {
       alert("player 1 has won");
@@ -137,6 +133,7 @@ function playGame() {
     }
     console.table(gameBoard);
   }
+  alert("its a tie");
 }
 
 playGame();
