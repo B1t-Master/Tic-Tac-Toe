@@ -52,9 +52,9 @@ const gameLogic = (function () {
     return { gameBoard };
   }
 
-  function isGameEnded(gameBoard) {
-    gameBoard ?? true;
-  }
+  // function isGameEnded(gameBoard) {
+  //   gameBoard ?? true;
+  // }
 
   function checkWinner(token) {
     if (
@@ -107,7 +107,7 @@ const gameLogic = (function () {
       return true;
     } else return false;
   }
-  return { createGameBoard, isGameEnded, checkWinner, gameBoard };
+  return { createGameBoard, checkWinner, gameBoard };
 })();
 
 function playGame() {
@@ -138,4 +138,4 @@ function playGame() {
   alert("its a tie");
 }
 
-playGame();
+// playGame(); starts the game , commented out for testing purposes

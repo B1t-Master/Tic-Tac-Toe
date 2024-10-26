@@ -3,8 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="script.js"></script>
-    <title>Document</title>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css" />
+    <title>Treasure Hunter</title>
   </head>
-  <body></body>
+  <body>
+    <div class="title">
+      Treasure Cove
+      <img class="logo" src="assets/logo.png " />
+    </div>
+    <div class="background-img"></div>
+    <div class="game-board">
+      <div class="box-1"></div>
+      <div class="box-2"></div>
+      <div class="box-3"></div>
+      <div class="box-4"></div>
+      <div class="box-5"></div>
+      <div class="box-6"></div>
+      <div class="box-7"></div>
+      <div class="box-8"></div>
+      <div class="box-9"></div>
+    </div>
+    <dialog class="start-game">
+      <div class="text-content">
+        This is a spin on the classic tic-tac-toe game. <br />
+        First palyer to find the right combination wins. <br />
+        May the best treasure finder win <br />
+        <img class="logo" src="assets/logo.png " />
+      </div>
+      <button class="start">Start</button>
+    </dialog>
+
+    <dialog class="game-over">
+      <div class="text-content">
+        <img class="logo" src="assets/logo.png " />
+      </div>
+      <button class="restart">restart</button>
+    </dialog>
+  </body>
 </html>
