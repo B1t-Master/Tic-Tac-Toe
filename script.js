@@ -199,6 +199,12 @@ const domLogic = (function () {
   cells.forEach((cell) => {
     cell.addEventListener("click", () => {
       playGame((prompt = cell.dataset.index));
+      if (gameLogic.checkWinner(player1.token, gameBoard)) {
+        domLogic.results(player1);
+      }
+      if (gameLogic.checkWinner(player2.token, gameBoard)) {
+        domLogic.results(player2);
+      }
       if (
         !gameLogic.checkGameStatus(gameBoard) &&
         !gameLogic.checkWinner(player1.token, gameBoard) &&
