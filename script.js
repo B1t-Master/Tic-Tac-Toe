@@ -12,9 +12,9 @@ function createPlayer(name, token) {
   let score = 0;
   const incrementScore = () => score++;
   const getScore = () => score;
-  const setMarker = (gameBoard) => {
+  const setMarker = (gameBoard, prompt) => {
     // console.log(gameBoard);
-    let marker = prompt(`${name}enter a number from 1 to 9`, "");
+    let marker = prompt;
     if (marker === "1" && gameBoard[0][0] === null) {
       gameBoard[0][0] = token;
       return updateDOM(getElements(marker), token);
@@ -52,7 +52,7 @@ function createPlayer(name, token) {
       return updateDOM(getElements(marker), token);
     } else {
       console.log("invalid entry");
-      return setMarker(gameBoard);
+      return (turn = !turn);
     }
   };
 
@@ -130,36 +130,46 @@ const gameLogic = (function () {
   return { createGameBoard, checkWinner, getElements, updateDOM };
 })();
 
-function playGame() {
-  gameBoard = gameLogic.createGameBoard();
-  let player1 = createPlayer("player1", "assets/o.png");
-  let player2 = createPlayer("player2", "assets/x.png");
-  console.log([
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-  ]);
+gameBoard = gameLogic.createGameBoard();
+let player1 = createPlayer("player1", "assets/o.png");
+let player2 = createPlayer("player2", "assets/x.png");
+let turn = true;
+let prompt;
 
-  for (let i = 0; i <= 4; i++) {
-    player1.setMarker(gameBoard);
+let cells = document.querySelectorAll(".cell");
+cells.forEach((cell) => {
+  // prompt = cell.dataset.index;
+  cell.addEventListener("click", () => {
+    playGame((prompt = cell.dataset.index));
+    turn = !turn;
+  });
+});
+
+function playGame(prompt) {
+  // console.log([
+  //   [1, 2, 3],
+  //   [4, 5, 6],
+  //   [7, 8, 9],
+  // ]);
+
+  if (turn === true) {
+    player1.setMarker(gameBoard, prompt);
     if (gameLogic.checkWinner(player1.token, gameBoard)) {
       alert("player 1 has won");
-      return;
-    }
-    console.table(gameBoard);
 
-    player2.setMarker(gameBoard);
+      // return;
+    }
+    // turn = false;
+  } else {
+    player2.setMarker(gameBoard, prompt);
     if (gameLogic.checkWinner(player2.token, gameBoard)) {
       alert("player 2 has won");
-      return;
+      // return;
     }
-    console.table(gameBoard);
+    // turn = true;
   }
-  alert("its a tie");
-}
-// console.table(gameLogic.displayDom.getElements());
-// starts the game , commented out for testing purposes
-// playGame();
 
-// let player2 = createPlayer("player2", "assets/x.png");
-// console.table(player2);
+  console.table(gameBoard);
+
+  // alert("its a tie");
+}
