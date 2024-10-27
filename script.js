@@ -155,7 +155,7 @@ const domLogic = (function () {
   let dialog = document.querySelector(".start-game");
   let startGameButton = document.querySelector(".start");
   let restartGameButton = document.querySelector(".restart");
-  let tempRestart = document.querySelectorAll(".big-button");
+  let tempRestart = document.querySelector(".big-button");
   let endScreen = document.querySelector(".game-over");
   let text = document.querySelector(".text-content");
   endScreen.appendChild(text);
@@ -170,19 +170,21 @@ const domLogic = (function () {
     endScreen.showModal();
   };
 
-  restartGameButton.addEventListener("click", () => {
-    window.location.reload();
+  const reset = function () {
+    gameBoard = gameLogic.createGameBoard();
+    let cells = document.querySelectorAll(".cell");
+    cells.forEach((items) => {
+      items.textContent = "";
+    });
+    endScreen.close();
+  };
+
+  tempRestart.addEventListener("click", () => {
+    reset();
   });
 
   restartGameButton.addEventListener("click", () => {
-    gameBoard = gameLogic.createGameBoard();
-    let cells = document.querySelectorAll(".cell");
-    let icon;
-    cells.forEach((items) => {
-      icon = document.querySelector(".token");
-      items.removeChild(icon);
-    });
-    endScreen.close();
+    reset();
   });
 
   window.addEventListener("load", () => {
