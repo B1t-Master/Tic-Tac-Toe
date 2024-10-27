@@ -225,5 +225,5 @@ function playGame(prompt) {
 }
 
 gameBoard = gameLogic.createGameBoard();
-let player1 = createPlayer("player1", "assets/o.png");
-let player2 = createPlayer("player2", "assets/x.png");
+let player1 = createPlayer("Jack Sparrow", "assets/o.png");
+let player2 = createPlayer("Davy Jones", "assets/x.png");
