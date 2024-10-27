@@ -18,6 +18,7 @@ function createPlayer(name, token) {
   const getScore = () => score;
   const setMarker = (gameBoard, prompt) => {
     // console.log(gameBoard);
+
     let marker = prompt;
     if (marker === "1" && gameBoard[0][0] === null) {
       gameBoard[0][0] = token;
@@ -76,22 +77,26 @@ const gameLogic = (function () {
   }
 
   function checkGameStatus(gameBoard) {
-    let count = 0;
-    for (subArray of gameBoard) {
-      for (cell of subArray) {
-        if (cell != null) {
-          count++;
-        }
+    for (let i = 0; i < 3; i++) {
+      if (
+        gameBoard[i][0] === null ||
+        gameBoard[i][2] === null ||
+        gameBoard[i][1] === null
+      ) {
+        return true;
       }
     }
-    while (count <= 8) {
-      return true;
-    }
+    return false;
   }
 
   function checkWinner(token, gameBoard) {
     if (
       gameBoard[0][0] === token &&
+      // for (let i = 0; i < 3; i++) {
+      //   if (board[0][i] && board[0][i] === board[1][i] && board[1][i] === board[2][i]) {
+      //     return board[0][i];
+      //   }
+      // }
       gameBoard[0][1] === token &&
       gameBoard[0][2] === token
     ) {
@@ -199,6 +204,13 @@ const domLogic = (function () {
   cells.forEach((cell) => {
     cell.addEventListener("click", () => {
       playGame((prompt = cell.dataset.index));
+      if (
+        !gameLogic.checkGameStatus(gameBoard) &&
+        !gameLogic.checkWinner(player1.token, gameBoard) &&
+        !gameLogic.checkWinner(player1.token, gameBoard)
+      ) {
+        domLogic.tie();
+      }
     });
   });
 
@@ -219,11 +231,11 @@ function playGame(prompt) {
       player2.setMarker(gameBoard, prompt);
       domLogic.turn = !domLogic.turn;
       if (gameLogic.checkWinner(player2.token, gameBoard)) {
-        domLogic.results(player1);
+        domLogic.results(player2);
       }
     }
     console.table(gameBoard);
-  } else domLogic.tie();
+  }
 }
 
 gameBoard = gameLogic.createGameBoard();
