@@ -83,12 +83,14 @@ body {
 }
 
 dialog[open] {
+  box-sizing: border-box;
   left: 0;
   right: 0;
-  top: 0;
+  top: 120px;
   bottom: 0;
-  width: 300px;
-  max-height: 300px;
+  margin-top: 32px;
+  width: 500px;
+  height: 300px;
   border: none;
   display: flex;
   flex-direction: column;
@@ -98,17 +100,26 @@ dialog[open] {
   margin: 0;
   justify-self: center;
   align-self: center;
-  gap: 8px;
+  gap: 16px;
   border-radius: 8px;
   padding: 2rem;
+  text-align: center;
+  font-size: 1.5em;
+  overflow: hidden;
 }
-/* [open]::backdrop {
-  opacity: 1;
-  background-color: rgb(161, 214, 112);
-} */
+::backdrop {
+  opacity: 0.65;
+  background: whitesmoke;
+}
 button {
   width: 6rem;
   height: 2rem;
   background-color: burlywood;
   border-radius: 4px;
+}
+
+.big-button {
+  width: 8rem;
+  height: 4rem;
+  margin-top: 2rem;
 }

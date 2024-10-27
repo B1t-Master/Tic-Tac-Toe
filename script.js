@@ -1,3 +1,4 @@
+//helper functions
 function getElements(marker) {
   let cell = document.querySelector(`[data-index="${marker}"]`);
   return cell;
@@ -6,8 +7,11 @@ function getElements(marker) {
 function updateDOM(cell, token) {
   let img = document.createElement("img");
   img.src = token;
+  img.classList.add("token");
   return cell.append(img);
 }
+
+//Factory function for the player object
 function createPlayer(name, token) {
   let score = 0;
   const incrementScore = () => score++;
@@ -52,13 +56,14 @@ function createPlayer(name, token) {
       return updateDOM(getElements(marker), token);
     } else {
       console.log("invalid entry");
-      return (turn = !turn);
+      return (domLogic.turn = !domLogic.turn);
     }
   };
 
   return { name, token, incrementScore, getScore, setMarker };
 }
 
+//IIFE module for the game logic
 const gameLogic = (function () {
   function createGameBoard() {
     gameBoard = [
@@ -70,11 +75,19 @@ const gameLogic = (function () {
     return gameBoard;
   }
 
-  // let displayDom = {
-  //   getElements: function () {
-  //     return (gridElements = document.querySelectorAll("[data-index]"));
-  //   },
-  // };
+  function checkGameStatus(gameBoard) {
+    let count = 0;
+    for (subArray of gameBoard) {
+      for (cell of subArray) {
+        if (cell != null) {
+          count++;
+        }
+      }
+    }
+    while (count <= 8) {
+      return true;
+    }
+  }
 
   function checkWinner(token, gameBoard) {
     if (
@@ -127,49 +140,90 @@ const gameLogic = (function () {
       return true;
     } else return false;
   }
-  return { createGameBoard, checkWinner, getElements, updateDOM };
+  return {
+    createGameBoard,
+    checkWinner,
+    checkGameStatus,
+  };
 })();
+
+//IIFE module for the DOM logic
+const domLogic = (function () {
+  let turn = true;
+  let prompt;
+
+  let dialog = document.querySelector(".start-game");
+  let startGameButton = document.querySelector(".start");
+  let restartGameButton = document.querySelector(".restart");
+  let tempRestart = document.querySelectorAll(".big-button");
+  let endScreen = document.querySelector(".game-over");
+  let text = document.querySelector(".text-content");
+  endScreen.appendChild(text);
+
+  const results = function (player) {
+    text.textContent = `${player.name} is the winner!`;
+    endScreen.showModal();
+  };
+
+  const tie = function () {
+    text.textContent = `Its a tie!`;
+    endScreen.showModal();
+  };
+
+  restartGameButton.addEventListener("click", () => {
+    window.location.reload();
+  });
+
+  restartGameButton.addEventListener("click", () => {
+    gameBoard = gameLogic.createGameBoard();
+    let cells = document.querySelectorAll(".cell");
+    let icon;
+    cells.forEach((items) => {
+      icon = document.querySelector(".token");
+      items.removeChild(icon);
+    });
+    endScreen.close();
+  });
+
+  window.addEventListener("load", () => {
+    dialog.showModal();
+  });
+
+  startGameButton.addEventListener("click", () => {
+    dialog.close();
+  });
+
+  let cells = document.querySelectorAll(".cell");
+  cells.forEach((cell) => {
+    cell.addEventListener("click", () => {
+      playGame((prompt = cell.dataset.index));
+    });
+  });
+
+  return { turn, prompt, endScreen, results, tie };
+})();
+
+// let count = 0;
+//Function to called when the an instance of game is occuring
+function playGame(prompt) {
+  if (gameLogic.checkGameStatus(gameBoard)) {
+    if (domLogic.turn === true) {
+      player1.setMarker(gameBoard, prompt);
+      domLogic.turn = !domLogic.turn;
+      if (gameLogic.checkWinner(player1.token, gameBoard)) {
+        domLogic.results(player1);
+      }
+    } else {
+      player2.setMarker(gameBoard, prompt);
+      domLogic.turn = !domLogic.turn;
+      if (gameLogic.checkWinner(player2.token, gameBoard)) {
+        domLogic.results(player1);
+      }
+    }
+    console.table(gameBoard);
+  } else domLogic.tie();
+}
 
 gameBoard = gameLogic.createGameBoard();
 let player1 = createPlayer("player1", "assets/o.png");
 let player2 = createPlayer("player2", "assets/x.png");
-let turn = true;
-let prompt;
-
-let cells = document.querySelectorAll(".cell");
-cells.forEach((cell) => {
-  // prompt = cell.dataset.index;
-  cell.addEventListener("click", () => {
-    playGame((prompt = cell.dataset.index));
-    turn = !turn;
-  });
-});
-
-function playGame(prompt) {
-  // console.log([
-  //   [1, 2, 3],
-  //   [4, 5, 6],
-  //   [7, 8, 9],
-  // ]);
-
-  if (turn === true) {
-    player1.setMarker(gameBoard, prompt);
-    if (gameLogic.checkWinner(player1.token, gameBoard)) {
-      alert("player 1 has won");
-
-      // return;
-    }
-    // turn = false;
-  } else {
-    player2.setMarker(gameBoard, prompt);
-    if (gameLogic.checkWinner(player2.token, gameBoard)) {
-      alert("player 2 has won");
-      // return;
-    }
-    // turn = true;
-  }
-
-  console.table(gameBoard);
-
-  // alert("its a tie");
-}
