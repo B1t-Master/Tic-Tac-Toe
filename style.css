@@ -48,14 +48,22 @@ body {
 }
 
 .game-board {
-  width: 28rem;
-  height: 28rem;
+  width: 32rem;
+  height: 32rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
 }
 .game-board > div {
   padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.token {
+  width: 90%;
+  height: 90%;
 }
 
 .box-1,

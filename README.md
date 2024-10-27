@@ -6,5 +6,5 @@ This was a project I undertook to get practice and get a firm understanding of f
 
 - Allow users to add their names manually
 - Add a score counter for the number of times won
-- Fix visual offset bug when an icon is added to the gameboard
+- Fix visual offset bug when an icon is added to the gameboard == fixed
 - Refactor code to use less if statements
