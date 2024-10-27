@@ -160,7 +160,6 @@ const domLogic = (function () {
   let dialog = document.querySelector(".start-game");
   let startGameButton = document.querySelector(".start");
   let restartGameButton = document.querySelector(".restart");
-  let tempRestart = document.querySelector(".big-button");
   let endScreen = document.querySelector(".game-over");
   let text = document.querySelector(".text-content");
   endScreen.appendChild(text);
@@ -183,10 +182,6 @@ const domLogic = (function () {
     });
     endScreen.close();
   };
-
-  tempRestart.addEventListener("click", () => {
-    reset();
-  });
 
   restartGameButton.addEventListener("click", () => {
     reset();
